@@ -747,6 +747,26 @@ export function buildCake(spec) {
   return built;
 }
 
+// Piezas sueltas para escenas compuestas (portada): un cupcake o una nube de sprinkles flotando.
+export function buildProp(kind, o = {}) {
+  if (kind === 'cupcake') {
+    const g = buildCupcake(o.sponge || '#f0d79b', o.color || '#86cbd3', o.color2 || '#e8edf0');
+    g.scale.setScalar(0.1);
+    return g;
+  }
+  if (kind === 'sprinkles') {
+    const r = rngFrom(o.seed || 9);
+    const pal = ['#f28fb1', '#86cbd3', '#caff8a', '#f7e58b', '#ffffff', '#cdb7e8', '#f8a66b'];
+    const items = [];
+    for (let i = 0; i < (o.count || 70); i++) {
+      const a = r() * TAU, rad = (o.inner || 1.7) + r() * ((o.outer || 2.9) - (o.inner || 1.7));
+      items.push({ x: Math.cos(a) * rad, y: (r() - 0.5) * (o.height || 2.8), z: Math.sin(a) * rad * 0.8, rx: r() * TAU, ry: r() * TAU, rz: r() * TAU, s: 0.7 + r() * 0.9, color: pal[Math.floor(r() * pal.length)] });
+    }
+    return instanced(new THREE.CapsuleGeometry(0.014, 0.07, 3, 6), std('#ffffff', 0.4), items);
+  }
+  return new THREE.Group();
+}
+
 export function disposeCake(root) {
   root.traverse((o) => {
     if (o.geometry && !o.geometry.userData.shared) o.geometry.dispose();
@@ -852,7 +872,7 @@ export function createStage(canvas, { controls: useControls = true, autoRotate =
   }
 
   const stage = {
-    renderer, scene, camera, controls, pivot,
+    renderer, scene, camera, controls, pivot, ground,
     get cake() { return current; },
     invalidate() { dirty = true; },
     setSpec(spec, { fit = false } = {}) {

@@ -1,7 +1,7 @@
 // Sitio público: catálogo, tamaños, sabores, combinaciones y la historia con scroll en 3D.
 
 import {
-  getState, onChange, CATEGORIES, COMBOS, money, esc, canSVG, addProduct, whatsappLink, fmtDate, encodeConfig, normalizeConfig,
+  getState, onChange, CATEGORIES, COMBOS, money, esc, canSVG, addProduct, cartCount, whatsappLink, fmtDate, encodeConfig, normalizeConfig,
 } from './data.js';
 import { initChrome, toast, openCart, ICON } from './ui.js';
 
@@ -149,12 +149,128 @@ function initParallax() {
     ticking = false;
     const y = window.scrollY;
     if (y > window.innerHeight * 1.3) return;
-    items.forEach(({ el, k }) => { el.style.transform = `translate3d(0, ${(y * k).toFixed(1)}px, 0)`; });
+    items.forEach(({ el, k }) => el.style.setProperty('--py', `${(y * k).toFixed(1)}px`));
   };
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
 }
 
-// La torta de la portada: se arma según el avance del scroll dentro de la sección.
+// Escena 3D de la portada: una torta de dos pisos se arma sola al cargar y queda flotando
+// junto a un Can, una lunch cake y un cupcake. Sigue al puntero y gira con el scroll.
+const HERO_CAKE = {
+  kind: 'cake',
+  tiers: [{ d: 17, h: 12 }, { d: 11, h: 9 }],
+  sponge: { color: '#f0d79b' },
+  fillings: ['#9dbb62', '#a11d3c'],
+  frosting: { style: 'liso', color: '#fbf2e0' },
+  border: { type: 'rosetones', color: '#86cbd3', color2: null, base: true },
+  toppings: ['sprinkles'],
+  topper: { type: 'cerezas' },
+};
+const HERO_LUNCH = {
+  kind: 'cake',
+  tiers: [{ d: 10, h: 7 }],
+  sponge: { color: '#5a3622' },
+  fillings: ['#b9772f'],
+  frosting: { style: 'liso', color: '#fbf2e0' },
+  border: { type: 'rosetones', color: '#86cbd3', color2: '#5b3421', base: false },
+  toppings: [],
+  topper: { type: 'polaroid', photo: 'assets/img/favicon.png' },
+  mensaje: 'Para ti',
+};
+
+async function initHero() {
+  const wrap = $('.hero-collage'), canvas = $('#hero-canvas'), hero = $('#inicio');
+  const { createStage, buildCake, buildProp, applyAssembly, webglAvailable, fontsReady } = await import('./cake3d.js');
+  if (!webglAvailable()) return;
+  wrap.classList.add('has-3d');
+  await fontsReady();
+
+  const clamp01 = (v) => Math.min(1, Math.max(0, v));
+  const back = (t) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+  let start = null, last = 0, scroll = 0, settled = false;
+
+  const stage = createStage(canvas, { controls: false, onFrame });
+  stage.ground.visible = false;
+
+  const main = buildCake(HERO_CAKE);
+  main.root.position.y = 0.1;
+  stage.pivot.add(main.root);
+
+  const red = getState().products.find((p) => p.id === 'can-red-velvet');
+  const can = buildCake({ kind: 'can', can: { capas: red?.capas || ['#a3222f', '#fbf2e0', '#a3222f', '#fbf2e0', '#a3222f', '#fbf2e0'], nombre: 'Red Velvet' } }).root;
+  const lunch = buildCake(HERO_LUNCH).root;
+  const cupcake = buildProp('cupcake', { sponge: '#f0d79b', color: '#86cbd3' });
+  const cupcake2 = buildProp('cupcake', { sponge: '#5a3622', color: '#5b3421', color2: '#caff8a' });
+  // x, y, z de reposo · amplitud y fase del vaivén · velocidad de giro · inclinación · tamaño · retraso de entrada
+  const props = [
+    { o: can, pos: [-1.8, 1.6, 0.4], amp: 0.1, ph: 0.4, spin: 0.35, tilt: 0.18, k: 1.2, delay: 1.5 },
+    { o: lunch, pos: [1.7, 0.2, 0.8], amp: 0.07, ph: 2.1, spin: -0.22, tilt: -0.1, k: 1.05, delay: 1.9 },
+    { o: cupcake, pos: [1.85, 1.95, -0.5], amp: 0.12, ph: 3.4, spin: 0.5, tilt: 0.2, k: 1.05, delay: 2.2 },
+    { o: cupcake2, pos: [-1.75, 0.15, -0.2], amp: 0.09, ph: 5, spin: -0.4, tilt: -0.16, k: 0.9, delay: 2.5 },
+  ];
+  props.forEach((p) => { p.o.position.set(...p.pos); p.o.rotation.z = p.tilt; p.o.scale.setScalar(0.0001); stage.pivot.add(p.o); });
+  const sprinkles = buildProp('sprinkles', { count: 80 });
+  sprinkles.position.y = 1.4;
+  sprinkles.scale.setScalar(0.0001);
+  stage.pivot.add(sprinkles);
+
+  const frame = () => {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return;
+    const d = Math.max(7.6, 10.2 / (w / h));
+    stage.camera.position.set(0, 1.9, d);
+    stage.camera.lookAt(0, 1.3, 0);
+    stage.invalidate();
+  };
+  new ResizeObserver(frame).observe(canvas);
+  frame();
+
+  hero.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    pointer.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+    pointer.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+  window.addEventListener('scroll', () => { scroll = clamp01(window.scrollY / (hero.offsetHeight || 1)); }, { passive: true });
+
+  function pose(t) {
+    applyAssembly(main.parts, clamp01(t / 2.6));
+    main.root.rotation.y = t * 0.28;
+    main.root.position.y = 0.1 + Math.sin(t * 0.9) * 0.05;
+    props.forEach((p) => {
+      p.o.scale.setScalar(0.1 * p.k * Math.max(0.001, back(clamp01((t - p.delay) / 0.8))));
+      p.o.position.y = p.pos[1] + Math.sin(t * 1.1 + p.ph) * p.amp;
+      p.o.rotation.y = t * p.spin + p.ph;
+    });
+    sprinkles.scale.setScalar(Math.max(0.0001, back(clamp01((t - 1.2) / 1.2))));
+    sprinkles.rotation.y = t * 0.07;
+    sprinkles.position.y = 1.4 + Math.sin(t * 0.5) * 0.08;
+  }
+
+  function onFrame(time) {
+    if (reduced) {
+      if (settled) return false;
+      settled = true;
+      pose(60);
+      stage.pivot.rotation.y = -0.3;
+      return true;
+    }
+    if (start === null) start = time;
+    const t = (time - start) / 1000, dt = Math.min(0.05, (time - last) / 1000 || 0.016);
+    last = time;
+    pointer.x += (pointer.tx - pointer.x) * Math.min(1, dt * 4);
+    pointer.y += (pointer.ty - pointer.y) * Math.min(1, dt * 4);
+    pose(t);
+    stage.pivot.rotation.y = pointer.x * 0.38 + Math.sin(t * 0.3) * 0.1 + scroll * 1.5;
+    stage.pivot.rotation.x = pointer.y * 0.1 + scroll * 0.25;
+    stage.pivot.position.y = scroll * 0.9;
+    wrap.style.setProperty('--ry', `${(pointer.x * 9).toFixed(2)}deg`);
+    wrap.style.setProperty('--rx', `${(-pointer.y * 7).toFixed(2)}deg`);
+    return true;
+  }
+}
+
+// La torta de la historia: se arma según el avance del scroll dentro de la sección.
 const STORY_SPEC = {
   kind: 'cake',
   tiers: [{ d: 16, h: 13 }],
@@ -233,9 +349,12 @@ initChrome();
 refresh();
 onChange(refresh);
 initParallax();
+initHero().catch((err) => { console.error(err); $('.hero-collage').classList.remove('has-3d'); });
 initStory().catch((err) => { console.error(err); $('#como-nace').classList.add('is-static', 'no-webgl'); });
 
 document.addEventListener('click', (e) => {
+  // "Haz tu pedido aquí": si ya hay algo en el pedido abre el carrito; si no, baja al catálogo.
+  if (e.target.closest('[data-order-here]') && cartCount() > 0) { e.preventDefault(); openCart(); return; }
   const tab = e.target.closest('[data-cat]');
   if (tab) { activeCat = tab.dataset.cat; renderTabs(); renderProducts(); return; }
   const add = e.target.closest('[data-add]');

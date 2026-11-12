@@ -72,6 +72,7 @@
           </ul>
         </div>
         <div class="hero-collage" aria-hidden="true">
+          <canvas id="hero-canvas"></canvas>
           <figure class="frame frame-a" data-parallax="-0.06"><img src="assets/img/foto-lunchcake-base.webp" alt="" width="676" height="1200"><span class="price-tag">$22</span></figure>
           <figure class="frame frame-b" data-parallax="0.1"><img src="assets/img/foto-tiramisu-clasico.webp" alt="" width="676" height="1200"><span class="price-tag">$34,50</span></figure>
           <figure class="frame frame-c" data-parallax="-0.14"><img src="assets/img/foto-lunchcake-polaroid.webp" alt="" width="676" height="1200"><span class="price-tag">$15</span></figure>
@@ -200,7 +201,12 @@
               <li>Te recomendamos realizar tu pedido con anticipación para asegurar tu compra.</li>
               <li id="campaign-close" hidden></li>
             </ul>
-            <a class="btn btn-lime" data-wa href="#" target="_blank" rel="noopener">Haz tu pedido aquí</a>
+            <div class="important-cta">
+              <a class="btn btn-lime" href="#catalogo" data-order-here>Haz tu pedido aquí</a>
+              <a class="btn btn-wa" data-wa href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4l1.3-4.3a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.2c-.6 2.6 3 6.3 6.4 6.5l1.1-1.5-2-1.3-1 .8c-.9-.5-1.6-1.2-2.1-2.1l.8-1L11.1 7.7z" fill="currentColor" stroke="none"/></svg>
+                Haz tu pedido por WhatsApp</a>
+            </div>
           </div>
         </div>
       </div>

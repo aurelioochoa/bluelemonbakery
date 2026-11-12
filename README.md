@@ -8,7 +8,7 @@ No tiene backend. Todo corre en el navegador y los datos se guardan en `localSto
 
 | Página | Qué hace |
 | --- | --- |
-| `index.html` | Sitio público: portada, torta que se arma en 3D con el scroll, catálogo con precios, tamaños, tabla de sabores, combinaciones más pedidas, cómo pedir y contacto. Carrito y checkout que generan el pedido y el mensaje de WhatsApp. |
+| `index.html` | Sitio público: portada con escena 3D animada (sigue al puntero y al scroll), torta que se arma en 3D con el scroll, catálogo con precios, tamaños, tabla de sabores, combinaciones más pedidas, cómo pedir y contacto. Carrito y checkout que generan el pedido y el mensaje de WhatsApp. |
 | `constructor.html` | Constructor 3D interactivo: torta (6 tamaños, incluido de dos pisos), lunch cake (cajita, base o cajita con 2 cupcakes), tiramisú y Cans. Bizcocho, rellenos, cobertura, borde, toppings, topper, mensaje y foto para la polaroid. Vista de corte, animación de armado, descarga de imagen y enlace para compartir el diseño. |
 | `admin.html` | Panel de administración: resumen con indicadores, pedidos con cambio de estado y vista 3D del diseño del cliente, agenda de producción, productos y precios, sabores y tamaños disponibles, clientes y ajustes del negocio. |
 

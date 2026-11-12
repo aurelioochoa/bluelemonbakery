@@ -27,8 +27,26 @@
 .frame img { width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--radius) - 3px); }
 .frame .price-tag { position: absolute; right: -10px; bottom: -12px; font-size: 1.05rem; box-shadow: var(--shadow-sm); }
 
-.hero-collage { position: relative; height: clamp(380px, 46vw, 600px); }
-.hero-collage .frame { position: absolute; will-change: transform; }
+[data-parallax] { transform: translate3d(0, var(--py, 0px), 0); }
+.hero-collage { position: relative; height: clamp(380px, 46vw, 600px); perspective: 1000px; }
+.hero-collage .frame {
+  position: absolute; will-change: transform;
+  transform: translate3d(0, var(--py, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotate(var(--rot, 0deg));
+}
+#hero-canvas { display: none; }
+
+/* Con WebGL la portada pasa a ser una escena 3D; las fotos quedan como apoyo en las esquinas. */
+.hero-collage.has-3d::before {
+  content: ''; position: absolute; left: 50%; top: 52%; width: 92%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(134, 203, 211, 0.34), rgba(134, 203, 211, 0)); border-radius: 50%;
+}
+.has-3d #hero-canvas { display: block; position: absolute; left: -8%; top: -20%; width: 128%; height: 140%; z-index: 2; pointer-events: none; }
+.has-3d .frame-a { display: none; }
+.has-3d .frame-b { width: 29%; top: -3%; right: -3%; --rot: 6deg; z-index: 1; }
+.has-3d .frame-c { width: 30%; left: -3%; bottom: -1%; --rot: -7deg; z-index: 3; }
+.has-3d .frame { opacity: 0; animation: frame-in 0.9s var(--ease) 1.5s forwards; }
+.has-3d .frame-c { animation-delay: 1.8s; }
+@keyframes frame-in { from { opacity: 0; scale: 0.8; } to { opacity: 1; scale: 1; } }
 .frame-a { width: 52%; aspect-ratio: 4 / 5; left: 22%; top: 6%; z-index: 2; }
 .frame-b { width: 36%; aspect-ratio: 1; right: 0; top: 0; z-index: 1; }
 .frame-c { width: 38%; aspect-ratio: 1; left: 0; bottom: 2%; z-index: 3; }
@@ -42,6 +60,17 @@
   .hero-grid { grid-template-columns: 1fr; }
   .hero-collage { height: clamp(300px, 78vw, 460px); max-width: 520px; width: 100%; margin-inline: auto; }
   .hero-facts li { max-width: 46%; }
+  /* En móvil la escena 3D va justo debajo del título, antes del texto y los botones. */
+  .hero-grid:has(.has-3d) { gap: 0; }
+  .hero-grid:has(.has-3d) .hero-copy { display: contents; }
+  .hero-grid:has(.has-3d) .hero-copy > * { order: 3; }
+  .hero-grid:has(.has-3d) .hero-copy > .hero-eyebrow, .hero-grid:has(.has-3d) .hero-copy > h1 { order: 1; }
+  .hero-grid:has(.has-3d) .hero-copy > h1 { margin-bottom: 0; }
+  .has-3d #hero-canvas { left: -5%; width: 110%; top: -10%; height: 120%; }
+  .hero-grid:has(.has-3d) .divider { display: none; }
+  .hero-collage.has-3d { order: 2; height: clamp(250px, 68vw, 400px); margin-block: 4px 0; }
+  .has-3d .frame-b { width: 27%; top: 0; right: 0; }
+  .has-3d .frame-c { width: 27%; left: 0; bottom: 2%; }
 }
 
 /* ---------- Historia con scroll ---------- */
@@ -197,6 +226,7 @@
 .important { margin-top: clamp(40px, 6vw, 70px); display: grid; grid-template-columns: minmax(180px, 280px) 1fr; gap: clamp(24px, 5vw, 60px); align-items: center; }
 .important .frame { aspect-ratio: 1; }
 .important ul { display: grid; gap: 10px; margin: 20px 0 28px; }
+.important-cta { display: flex; flex-wrap: wrap; gap: 14px; }
 .important li { padding-left: 20px; position: relative; color: rgba(255, 255, 255, 0.9); letter-spacing: 0.02em; }
 .important li::before { content: '•'; position: absolute; left: 2px; color: var(--teal); }
 .sticker {
