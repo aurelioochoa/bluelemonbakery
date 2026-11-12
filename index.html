@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Blue Lemon Bakery · Tortas personalizadas en Guayaquil</title>
+  <meta name="description" content="Tortas personalizadas, bocaditos y Cans hechos a mano en Guayaquil. Diseña tu torta en 3D y pídela por WhatsApp.">
+  <meta name="theme-color" content="#083969">
+  <meta property="og:title" content="Blue Lemon Bakery · Tortas personalizadas">
+  <meta property="og:description" content="Diseña tu torta en 3D: bizcocho, relleno, cobertura y toppings. Guayaquil, Ecuador.">
+  <meta property="og:image" content="assets/img/foto-coleccion.webp">
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js" } }</script>
+</head>
+<body>
+  <a class="sr-only" href="#catalogo">Saltar al catálogo</a>
+
+  <header class="site-header" data-overlay>
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Blue Lemon Bakery, inicio">
+        <img class="logo-white" src="assets/img/logo-white.png" alt="Blue Lemon Bakery" width="71" height="46">
+        <img class="logo-navy" src="assets/img/logo-navy.png" alt="" width="71" height="46">
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#tamanos">Tamaños</a>
+        <a href="#sabores">Sabores</a>
+        <a href="#combinaciones">Favoritas</a>
+        <a href="#pedir">Cómo pedir</a>
+        <a href="#contacto">Contacto</a>
+        <a class="btn btn-lime nav-cta" href="constructor.html">Diseña tu torta en 3D</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-lime btn-sm header-cta" href="constructor.html">Diseña tu torta en 3D</a>
+        <button class="icon-btn" data-open-cart aria-label="Ver tu pedido">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+          <span class="cart-count" data-cart-count></span>
+        </button>
+        <button class="icon-btn menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Portada -->
+    <section class="hero" id="inicio">
+      <img class="hero-mark" src="assets/img/mark-white.png" alt="" aria-hidden="true" data-parallax="0.18">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow hero-eyebrow">Tortas personalizadas · Bocaditos · Cans</p>
+          <h1 class="caps">Horneamos<br>creatividad</h1>
+          <div class="divider" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3C10 3 4 8 4 15c0 2 .6 3.6 1.5 5C7 14 11 9.5 17 7c-5 3.5-8.5 8-9.8 14 .9.3 1.8.5 2.8.5 6 0 10-6 10-18.5z"/></svg>
+          </div>
+          <p class="hero-lead">Tortas hechas a mano en Guayaquil por Génesis Aguirre. Elige el bizcocho, el relleno y los toppings, y mira tu torta en 3D antes de pedirla.</p>
+          <div class="hero-cta">
+            <a class="btn btn-lime" href="constructor.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+              Diseña tu torta en 3D
+            </a>
+            <a class="btn btn-ghost" href="#catalogo">Ver catálogo</a>
+          </div>
+          <ul class="hero-facts">
+            <li><strong data-setting="anticipacion">4 días</strong><span>de anticipación para tortas y bocaditos</span></li>
+            <li><strong>Mismo día</strong><span>para pedir tus Cans</span></li>
+            <li><strong>Guayaquil</strong><span>retiro en taller o a domicilio</span></li>
+          </ul>
+        </div>
+        <div class="hero-collage" aria-hidden="true">
+          <figure class="frame frame-a" data-parallax="-0.06"><img src="assets/img/foto-lunchcake-base.webp" alt="" width="676" height="1200"><span class="price-tag">$22</span></figure>
+          <figure class="frame frame-b" data-parallax="0.1"><img src="assets/img/foto-tiramisu-clasico.webp" alt="" width="676" height="1200"><span class="price-tag">$34,50</span></figure>
+          <figure class="frame frame-c" data-parallax="-0.14"><img src="assets/img/foto-lunchcake-polaroid.webp" alt="" width="676" height="1200"><span class="price-tag">$15</span></figure>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+    </section>
+
+    <!-- Historia con scroll: la torta se arma en 3D -->
+    <section class="story" id="como-nace" aria-label="Así nace tu torta">
+      <div class="story-sticky">
+        <div class="story-stage"><canvas id="story-canvas" aria-hidden="true"></canvas></div>
+        <div class="wrap story-copy">
+          <p class="eyebrow">Así nace tu torta</p>
+          <div class="story-steps">
+            <article class="story-step is-active">
+              <span class="story-n caps">01</span>
+              <h2 class="serif">Empieza por el bizcocho</h2>
+              <p>Diez sabores para elegir, de vainilla y red velvet a limón, zanahoria o amaretto. Todos van humedecidos en almíbar.</p>
+            </article>
+            <article class="story-step">
+              <span class="story-n caps">02</span>
+              <h2 class="serif">Súmale tus rellenos</h2>
+              <p>Manjar, brigadeiro de pistacho, frutos rojos, ganache… Arma la combinación que más te guste, hasta en dos capas.</p>
+            </article>
+            <article class="story-step">
+              <span class="story-n caps">03</span>
+              <h2 class="serif">Vístela de color</h2>
+              <p>Cobertura lisa, peinada, en degradé o con drip. Tú eliges el tono para que combine con tu celebración.</p>
+            </article>
+            <article class="story-step">
+              <span class="story-n caps">04</span>
+              <h2 class="serif">Los detalles a mano</h2>
+              <p>Rosetones, perlas y toppings puestos uno a uno: chispas, sprinkles, nueces, Oreo y más.</p>
+            </article>
+            <article class="story-step">
+              <span class="story-n caps">05</span>
+              <h2 class="serif">Y tu toque final</h2>
+              <p>Una polaroid, un mensaje, velas o flores. Así queda lista para contar tu historia.</p>
+              <a class="btn btn-lime" href="constructor.html">Ahora diseña la tuya</a>
+            </article>
+          </div>
+          <div class="story-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="story-hint" aria-hidden="true">Sigue bajando <span>↓</span></p>
+      </div>
+    </section>
+
+    <!-- Catálogo -->
+    <section class="section" id="catalogo">
+      <div class="wrap">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Catálogo</p>
+          <h2 class="caps">Listos para celebrar</h2>
+          <p class="section-lead">Lunch cakes, tiramisús y nuestros Cans. Añádelos a tu pedido o ábrelos en el constructor para verlos en 3D.</p>
+        </header>
+        <div class="tabs" id="cat-tabs" role="tablist" aria-label="Categorías" data-reveal></div>
+        <div class="grid-products" id="products"></div>
+        <p class="note catalog-note" id="catalog-note"></p>
+      </div>
+    </section>
+
+    <!-- Tamaños -->
+    <section class="section section-sizes" id="tamanos">
+      <div class="band">
+        <div class="wrap band-inner">
+          <img src="assets/img/logo-white.png" alt="" width="108" height="70">
+          <h2 class="serif">Tortas personalizadas</h2>
+        </div>
+      </div>
+      <div class="wrap">
+        <header class="section-head" data-reveal>
+          <h2 class="caps">Tamaños disponibles</h2>
+          <p class="section-lead">Toca un tamaño para empezar a diseñarlo en 3D.</p>
+        </header>
+        <div class="grid-sizes" id="sizes"></div>
+      </div>
+      <img class="watermark" src="assets/img/mark-teal.png" alt="" aria-hidden="true">
+    </section>
+
+    <!-- Sabores -->
+    <section class="section" id="sabores">
+      <div class="wrap">
+        <header class="section-head" data-reveal>
+          <h2 class="caps">Sabores disponibles</h2>
+          <p class="section-sub">Arma la combinación que más te guste.<br>Puedes escoger el tipo de bizcocho, relleno y toppings.</p>
+        </header>
+        <div class="flavor-table" id="flavors" data-reveal></div>
+      </div>
+    </section>
+
+    <!-- Combinaciones -->
+    <section class="section section-combos" id="combinaciones">
+      <div class="wrap">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Top 3</p>
+          <h2 class="serif">Combinaciones más pedidas</h2>
+        </header>
+        <div class="grid-top" id="combos-top"></div>
+        <h3 class="combos-title" data-reveal>Otras combinaciones sugeridas</h3>
+        <ul class="combos-list" id="combos-more"></ul>
+      </div>
+    </section>
+
+    <!-- Cómo pedir -->
+    <section class="section section-navy" id="pedir">
+      <img class="hero-mark" src="assets/img/mark-white.png" alt="" aria-hidden="true">
+      <div class="wrap">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Cómo pedir</p>
+          <h2 class="caps">Tu pedido en cuatro pasos</h2>
+        </header>
+        <ol class="steps">
+          <li data-reveal><span class="caps">1</span><h3>Elige o diseña</h3><p>Toma algo del catálogo o arma tu torta en el constructor 3D.</p></li>
+          <li data-reveal><span class="caps">2</span><h3>Agenda tu fecha</h3><p>Tortas y bocaditos con <b data-setting="anticipacion">4 días</b> de anticipación. Los Cans, para el mismo día.</p></li>
+          <li data-reveal><span class="caps">3</span><h3>Envíalo por WhatsApp</h3><p>Tu pedido llega con todos los detalles y confirmamos disponibilidad.</p></li>
+          <li data-reveal><span class="caps">4</span><h3>Retira o recibe</h3><p>Pasa por el taller en Mapasingue Oeste o coordina el envío a domicilio.</p></li>
+        </ol>
+        <div class="important" data-reveal>
+          <figure class="frame"><img src="assets/img/foto-coleccion.webp" alt="Lunch cakes, tiramisú y cajitas de Blue Lemon Bakery" width="630" height="1119" loading="lazy"></figure>
+          <div>
+            <span class="sticker">¡Importante!</span>
+            <ul>
+              <li>El valor publicado no incluye envío a domicilio.</li>
+              <li>Trabajamos con stock limitado, por lo que los productos están sujetos a disponibilidad.</li>
+              <li>Te recomendamos realizar tu pedido con anticipación para asegurar tu compra.</li>
+              <li id="campaign-close" hidden></li>
+            </ul>
+            <a class="btn btn-lime" data-wa href="#" target="_blank" rel="noopener">Haz tu pedido aquí</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section class="section section-contact" id="contacto">
+      <div class="wrap contact-grid">
+        <div data-reveal>
+          <p class="eyebrow">Contacto</p>
+          <h2 class="serif">Hablemos de tu celebración</h2>
+          <p class="section-lead">Atiende <span data-setting="chef">Génesis Aguirre</span>. Cuéntanos la fecha, para cuántas personas y la temática que tienes en mente.</p>
+          <div class="contact-cta">
+            <a class="btn btn-wa" data-wa href="#" target="_blank" rel="noopener">WhatsApp <span data-setting="whatsappDisplay">099 352 4000</span></a>
+            <a class="btn btn-ghost" data-ig href="#" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+        <dl class="contact-cards" data-reveal>
+          <div><dt>Taller y retiros</dt><dd data-setting="direccion">Mapasingue Oeste, calle tercera #106, entre la gasolinera Primax y Avícola Fernández</dd><dd><a id="map-link" href="#" target="_blank" rel="noopener">Abrir en el mapa</a></dd></div>
+          <div><dt>Atención al cliente</dt><dd data-setting="horario">Lunes a viernes · 8h00 a 18h00</dd></div>
+          <div><dt>Cans</dt><dd>Retiro en el taller, a domicilio por WhatsApp y en la aplicación Rappi.</dd></div>
+          <div><dt>Catálogos en PDF</dt><dd><a href="assets/catalogos/tortas-personalizadas.pdf" target="_blank" rel="noopener">Tortas personalizadas</a><br><a href="assets/catalogos/catalogo-dia-del-padre.pdf" target="_blank" rel="noopener">Catálogo Día del Padre</a></dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <img src="assets/img/logo-white.png" alt="Blue Lemon Bakery" width="120" height="78" loading="lazy">
+      <p>Tortas personalizadas, bocaditos y Cans.<br>Guayaquil, Ecuador.</p>
+      <nav aria-label="Pie">
+        <a href="constructor.html">Constructor 3D</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="admin.html">Panel de administración</a>
+      </nav>
+    </div>
+    <div class="wrap footer-legal">
+      <span class="demo-badge">Maqueta</span>
+      <span>Demostración funcional sin backend: los pedidos se guardan solo en este navegador.</span>
+    </div>
+  </footer>
+
+  <a class="fab-wa" data-wa href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4l1.3-4.3a8.4 8.4 0 1 1 3.2 3.1z"/><path d="M9.2 8.2c-.6 2.6 3 6.3 6.4 6.5l1.1-1.5-2-1.3-1 .8c-.9-.5-1.6-1.2-2.1-2.1l.8-1L11.1 7.7z" fill="currentColor" stroke="none"/></svg>
+  </a>
+
+  <script type="module" src="assets/js/site.js"></script>
+</body>
+</html>

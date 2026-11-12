@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Panel de administración · Blue Lemon Bakery</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#083969">
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js" } }</script>
+</head>
+<body class="admin">
+  <!-- Acceso de demostración: no hay autenticación real en la maqueta -->
+  <div class="login" id="login">
+    <form class="login-card" id="login-form">
+      <img src="assets/img/logo-navy.png" alt="Blue Lemon Bakery" width="130" height="84">
+      <h1 class="serif">Panel de administración</h1>
+      <p class="note">Acceso de demostración. Los datos son ficticios y se guardan solo en este navegador.</p>
+      <label class="field"><span>Usuario</span><input class="input" name="user" value="genesis@bluelemon.demo" autocomplete="off"></label>
+      <label class="field"><span>Contraseña</span><input class="input" type="password" name="pass" value="demo-demo" autocomplete="off"></label>
+      <button class="btn btn-lime btn-block" type="submit">Entrar al panel</button>
+      <a class="note" href="index.html">← Volver al sitio</a>
+    </form>
+  </div>
+
+  <aside class="side" id="side">
+    <a class="side-brand" href="index.html" title="Ir al sitio"><img src="assets/img/logo-white.png" alt="Blue Lemon Bakery" width="96" height="62"></a>
+    <nav class="side-nav" id="side-nav" aria-label="Secciones del panel"></nav>
+    <div class="side-foot">
+      <a class="btn btn-ghost btn-sm btn-block" href="index.html" target="_blank" rel="noopener">Ver sitio público</a>
+      <span class="demo-badge">Datos de demostración</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn side-toggle" id="side-toggle" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div>
+        <h1 class="serif" id="view-title">Resumen</h1>
+        <p class="note" id="view-sub"></p>
+      </div>
+      <div class="top-actions" id="top-actions"></div>
+    </header>
+    <main id="view" class="view"></main>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer drawer-wide" id="drawer" aria-label="Detalle"></aside>
+  <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="modal-card" id="modal-card"></div></div>
+
+  <script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

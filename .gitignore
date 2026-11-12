@@ -1,0 +1,6 @@
+# Recursos originales entregados por el cliente (los PDF ya están en assets/catalogos/)
+/*.pdf
+/*.zip
+node_modules/
+.DS_Store
+/WhatsApp*/

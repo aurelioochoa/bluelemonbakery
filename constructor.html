@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Constructor 3D · Blue Lemon Bakery</title>
+  <meta name="description" content="Diseña tu torta de Blue Lemon Bakery en 3D: tamaño, bizcocho, rellenos, cobertura, toppings y mensaje.">
+  <meta name="theme-color" content="#083969">
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/builder.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js" } }</script>
+</head>
+<body class="builder-page">
+  <header class="site-header is-solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Blue Lemon Bakery, inicio">
+        <img class="logo-navy" src="assets/img/logo-navy.png" alt="Blue Lemon Bakery" width="71" height="46">
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html#catalogo">Catálogo</a>
+        <a href="index.html#sabores">Sabores</a>
+        <a href="constructor.html" aria-current="page">Constructor 3D</a>
+        <a href="index.html#pedir">Cómo pedir</a>
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" data-open-cart aria-label="Ver tu pedido">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+          <span class="cart-count" data-cart-count></span>
+        </button>
+        <button class="icon-btn menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="builder">
+    <section class="stage" aria-label="Vista 3D de tu diseño">
+      <img class="stage-mark" src="assets/img/mark-teal.png" alt="" aria-hidden="true">
+      <canvas id="stage-canvas" aria-label="Modelo 3D. Arrastra para girar, pellizca o usa la rueda para acercar."></canvas>
+      <div class="stage-fallback" id="stage-fallback" hidden>
+        <img src="assets/img/mark-navy.png" alt="">
+        <p>Tu navegador no pudo iniciar la vista 3D. Puedes seguir eligiendo opciones: el resumen y el precio se actualizan igual.</p>
+      </div>
+      <div class="stage-top">
+        <span class="chip-dims" id="dims"></span>
+      </div>
+      <div class="stage-tools" role="toolbar" aria-label="Controles de la vista">
+        <button class="tool" id="t-rotate" aria-pressed="true" title="Girar automáticamente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg><span>Girar</span></button>
+        <button class="tool" id="t-cut" aria-pressed="false" title="Ver las capas por dentro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12L4.5 7.7A8.6 8.6 0 1 0 12 3.4z"/><path d="M15 2.5v6.2l5.4 3.1"/></svg><span>Corte</span></button>
+        <button class="tool" id="t-build" title="Ver cómo se arma">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l12 7-12 7z"/></svg><span>Armar</span></button>
+        <button class="tool" id="t-random" title="Sorpréndeme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg><span>Sorpréndeme</span></button>
+        <button class="tool" id="t-photo" title="Descargar imagen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Foto</span></button>
+      </div>
+      <p class="stage-hint" id="stage-hint">Arrastra para girar · Pellizca para acercar</p>
+    </section>
+
+    <section class="panel" aria-label="Opciones">
+      <div class="panel-scroll">
+        <header class="panel-head">
+          <p class="eyebrow">Constructor 3D</p>
+          <h1 class="serif">Diseña tu pedido</h1>
+          <p class="note">Elige las opciones y mira el resultado al instante. Los sabores salen del catálogo de Blue Lemon.</p>
+        </header>
+        <div id="options"></div>
+      </div>
+      <footer class="summary" id="summary"></footer>
+    </section>
+  </main>
+
+  <script type="module" src="assets/js/builder.js"></script>
+</body>
+</html>
